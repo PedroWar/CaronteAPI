@@ -17,7 +17,7 @@ app.set('port', (process.env.PORT || 2000));
 // 	next();
 // });
 
-app.use('/api', router);
+app.use('/api/v1', router);
 router.use(bodyParser.json({limit: '10mb'}));
 
 configRouter.configura(router);
