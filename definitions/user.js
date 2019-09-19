@@ -13,5 +13,17 @@ module.exports = function (Sequelize, DataTypes) {
     }, {}
     );
 
+    User.associate = (models) => {
+        User.belongsToMany(
+            models.Group, {
+                through: {
+                    model: models.GroupUsers,
+                    unique: false
+                },
+                foreignKey: 'UserId',
+                constraints: false
+            })
+    }
+
     return User;
 };

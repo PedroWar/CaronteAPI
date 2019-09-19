@@ -5,13 +5,21 @@ module.exports = function (Sequelize, DataTypes) {
             primaryKey: true,
             autoIncrement: true
         },
-        email: DataTypes.STRING(250),
-        password: DataTypes.STRING(250),
         name: DataTypes.STRING(250),
-        phone: DataTypes.BIGINT,
-        course: DataTypes.STRING(250)
-    }, {}
-    );
+        description: DataTypes.STRING(250)
+    }, {})
 
+    Group.associate = (models) => {
+        Group.belongsToMany(
+            models.User, {
+                through: {
+                    model: models.GroupUsers,
+                    unique: false
+                },
+                foreignKey: 'GroupId',
+                constraints: false
+            })
+    }
     return Group;
+
 };
