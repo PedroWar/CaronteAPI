@@ -1,0 +1,23 @@
+{
+  "name": "lab",
+  "version": "1.0.0",
+  "description": "Projeto Caronte",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "POSTGRES_PORT=5434 && node index.js",
+		"dev": "POSTGRES_PORT=5434 && nodemon index.js"
+  },
+  "author": "Pedro Guerra",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "moment": "^2.24.0",
+    "path": "^0.12.7",
+    "pg": "6.1.0",
+    "sequelize": "3.30.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  }
+}
