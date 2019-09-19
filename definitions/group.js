@@ -1,5 +1,5 @@
 module.exports = function (Sequelize, DataTypes) {
-    var User = Sequelize.define("User", {
+    var Group = Sequelize.define("Group", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -13,5 +13,5 @@ module.exports = function (Sequelize, DataTypes) {
     }, {}
     );
 
-    return User;
+    return Group;
 };
