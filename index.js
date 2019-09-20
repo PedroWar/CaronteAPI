@@ -2,7 +2,7 @@ var fs = require('fs');
 var express = require('express');
 var bodyParser = require('body-parser');
 var configRouter = require('./controllers/routes');
-var models = require('./definitions/DBconfig')
+var models = require('./migrations/DBconfig')
 
 var app = express();
 var router = express.Router();

@@ -1,4 +1,4 @@
-var models = require('../definitions/DBconfig');
+var models = require('../migrations/DBconfig');
 
 async function create(body) {
     return await models.Group.create(
@@ -30,8 +30,35 @@ async function destroy(body) {
         where: {
             id: body.id
         }
-    }).then(function (response) {
-        return response
+    })
+}
+
+async function addUser(body) {
+    let group = await models.Group.findById(body.groupId)
+    return await group.addUser(await models.User.findById(body.userId))
+}
+
+async function RemoveUser(body) {
+    let group = await models.Group.findById(body.groupId)
+    return await group.removeUser(await models.User.findById(body.userId))
+}
+
+async function readUsers(query) {
+    return await models.Group.findOne( 
+        {
+        where: {
+            id: query.groupId
+        },
+        include: [{
+            model: models.User,
+            attributes: [
+                'id',
+                'name',
+                'email',
+                'phone',
+                'course'
+            ]
+        }]
     })
 }
 
@@ -39,5 +66,8 @@ module.exports = {
     create,
     read,
     update,
-    destroy
+    destroy,
+    addUser,
+    RemoveUser,
+    readUsers
 }
