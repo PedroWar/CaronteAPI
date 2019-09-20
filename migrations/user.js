@@ -1,5 +1,5 @@
 module.exports = function (Sequelize, DataTypes) {
-    var Group = Sequelize.define("Group", {
+    var User = Sequelize.define("User", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -13,5 +13,17 @@ module.exports = function (Sequelize, DataTypes) {
     }, {}
     );
 
-    return Group;
+    User.associate = (models) => {
+        User.belongsToMany(
+            models.Group, {
+                through: {
+                    model: models.GroupUsers,
+                    unique: false
+                },
+                foreignKey: 'UserId',
+                constraints: false
+            })
+    }
+
+    return User;
 };

@@ -1,4 +1,4 @@
-var models = require('../definitions/DBconfig');
+var models = require('../migrations/DBconfig');
 
 async function login(body) {
     return await models.User.findOne(
