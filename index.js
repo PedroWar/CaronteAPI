@@ -1,8 +1,8 @@
 var fs = require('fs');
 var express = require('express');
 var bodyParser = require('body-parser');
-var configRouter = require('./controllers/routes');
-var models = require('./migrations/DBconfig')
+var configRouter = require('./src/controllers/routes');
+var models = require('./models/DBconfig')
 
 var app = express();
 var router = express.Router();
