@@ -51,35 +51,35 @@ exports.configura = function (router) {
 		})
 
 	router.route("/group/user")
-	.post(async function (req, res) {
-		let objRes;
-		objRes = await groupApi.addUser(req.body)
-		console.log(objRes)
-		if (objRes) {
-			return res.status(200).json(objRes)
-		}
-		else
-			return res.status(400).json(objRes)
-	})
-	.delete(async function (req, res) {
-		let objRes;
-		objRes = await groupApi.RemoveUser(req.body)
-		console.log(objRes)
-		if (objRes) {
-			return res.status(200).json(objRes)
-		}
-		else
-			return res.status(400).json(objRes)
-	})
-	.get(async function (req, res) {
-		let objRes;
-		console.log(req.query)
-		objRes = await groupApi.readUsers(req.query)
+		.post(async function (req, res) {
+			let objRes;
+			objRes = await groupApi.addUser(req.body)
+			console.log(objRes)
+			if (objRes) {
+				return res.status(200).json(objRes)
+			}
+			else
+				return res.status(400).json(objRes)
+		})
+		.delete(async function (req, res) {
+			let objRes;
+			objRes = await groupApi.RemoveUser(req.body)
+			console.log(objRes)
+			if (objRes) {
+				return res.status(200).json(objRes)
+			}
+			else
+				return res.status(400).json(objRes)
+		})
+		.get(async function (req, res) {
+			let objRes;
+			console.log(req.query)
+			objRes = await groupApi.readUsers(req.query)
 
-		if (objRes) {
-			return res.status(200).json(objRes)
-		}
-		else
-			return res.status(400).json(objRes)
-	})
+			if (objRes) {
+				return res.status(200).json(objRes)
+			}
+			else
+				return res.status(400).json(objRes)
+		})
 }

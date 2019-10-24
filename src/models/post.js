@@ -19,10 +19,10 @@ async function readOne(query) {
     return await models.Post.findByPk(query.id)
 }
 
-async function destroy(body) {
+async function destroy(query) {
     return await models.Post.destroy({
         where: {
-            id: body.id
+            id: query.id
         }
     }).then(function (response) {
         return response
@@ -107,6 +107,38 @@ async function destroyUnlike(body) {
     )
 }
 
+async function createComment(body) {
+    return await models.Comment.create(
+        {
+            comment: body.comment,
+            PostId: body.PostId,
+            UserId: body.UserId
+        }
+    )
+}
+
+async function destroyComment(body) {
+    return await models.Comment.destroy(
+        {
+            where:
+            {
+              id: body.id
+            }
+        }
+    )
+}
+
+async function getComment(query) {
+    return await models.Comment.findAll(
+        {
+            where:
+            {
+              PostId: query.PostId
+            }
+        }
+    )
+}
+
 module.exports = {
     create,
     read,
@@ -115,5 +147,8 @@ module.exports = {
     likePost,
     undoLikePost,
     unlikePost,
-    undoUnlikePost
+    undoUnlikePost,
+    createComment,
+    destroyComment,
+    getComment
 }
