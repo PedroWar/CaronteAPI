@@ -28,6 +28,26 @@ exports.configura = function (router) {
             return res.status(400).json(objRes)
     })
 
+    router.post("/post/unlike", async function (req, res) {
+        let objRes;
+        objRes = await postApi.unlikePost(req.body)
+        console.log(objRes)
+        if (objRes) {
+            return res.status(200).json(objRes)
+        }
+        else
+            return res.status(400).json(objRes)
+    }).delete("/post/unlike", async function (req, res) {
+        let objRes;
+        objRes = await postApi.undoUnlikePost(req.body)
+        console.log(objRes)
+        if (objRes) {
+            return res.status(200).json(objRes)
+        }
+        else
+            return res.status(400).json(objRes)
+    })
+
     router.route("/post/")
         .post(async function (req, res) {
             let objRes;
@@ -41,7 +61,11 @@ exports.configura = function (router) {
         })
         .get(async function (req, res) {
             let objRes;
-            objRes = await postApi.read()
+            if (req.query.id)
+                objRes = await postApi.readOne(req.query)
+            else
+                objRes = await postApi.read()
+
 
             if (objRes) {
                 return res.status(200).json(objRes)
@@ -59,5 +83,4 @@ exports.configura = function (router) {
             else
                 return res.status(400).json(objRes)
         })
-
 }

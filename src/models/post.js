@@ -15,6 +15,10 @@ async function read() {
     return await models.Post.findAll()
 }
 
+async function readOne(query) {
+    return await models.Post.findByPk(query.id)
+}
+
 async function destroy(body) {
     return await models.Post.destroy({
         where: {
@@ -64,11 +68,52 @@ async function destroyLike(body) {
     )
 }
 
+async function unlikePost(body) {
+    await createUnlike(body)
+    
+    let post = await models.Post.findByPk(body.PostId)
+    
+    await post.increment("unlikes")
+    return await post.save()
+}
+
+async function undoUnlikePost(body) {
+    await destroyUnlike(body)
+    
+    let post = await models.Post.findByPk(body.PostId)
+    
+    await post.decrement("unlikes")
+    return await post.save()
+}
+
+async function createUnlike(body) {
+    return await models.UnlikePost.create(
+        {
+            PostId: body.PostId,
+            UserId: body.UserId
+        }
+    )
+}
+
+async function destroyUnlike(body) {
+    return await models.UnlikePost.destroy(
+        {
+            where:
+            {
+                PostId: body.PostId,
+                UserId: body.UserId
+            }
+        }
+    )
+}
 
 module.exports = {
     create,
     read,
+    readOne,
     destroy,
     likePost,
-    undoLikePost
+    undoLikePost,
+    unlikePost,
+    undoUnlikePost
 }
