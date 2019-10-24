@@ -1,6 +1,7 @@
 var moment = require('moment')
 var userApi = require('./userController')
 var groupApi = require('./groupController')
+var postApi = require('./postController')
 
 exports.configura = function (router) {
 	router.get('/', function (req, res) {
@@ -12,4 +13,5 @@ exports.configura = function (router) {
 
 	userApi.configura(router)
 	groupApi.configura(router)
+	postApi.configura(router)
 };

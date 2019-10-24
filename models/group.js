@@ -1,73 +1,25 @@
-var models = require('../migrations/DBconfig');
-
-async function create(body) {
-    return await models.Group.create(
-        {
-            name: body.name,
-            description: body.description
-        })
-}
-
-async function read() {
-    return await models.Group.findAll();
-}
-
-async function update(body) {
-    return await models.Group.update(
-        {
-            name: body.name,
-            description: body.description
+module.exports = function (Sequelize, DataTypes) {
+    var Group = Sequelize.define("Group", {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
         },
-        {
-            where: {
-                id: body.id
-            }
-        })
-}
+        name: DataTypes.STRING(250),
+        description: DataTypes.STRING(250)
+    }, {})
 
-async function destroy(body) {
-    return await models.Group.destroy({
-        where: {
-            id: body.id
-        }
-    })
-}
+    Group.associate = (models) => {
+        Group.belongsToMany(
+            models.User, {
+                through: {
+                    model: models.GroupUsers,
+                    unique: false
+                },
+                foreignKey: 'GroupId',
+                constraints: false
+            })
+    }
+    return Group;
 
-async function addUser(body) {
-    let group = await models.Group.findById(body.groupId)
-    return await group.addUser(await models.User.findById(body.userId))
-}
-
-async function RemoveUser(body) {
-    let group = await models.Group.findById(body.groupId)
-    return await group.removeUser(await models.User.findById(body.userId))
-}
-
-async function readUsers(query) {
-    return await models.Group.findOne( 
-        {
-        where: {
-            id: query.groupId
-        },
-        include: [{
-            model: models.User,
-            attributes: [
-                'id',
-                'name',
-                'email',
-                'phone',
-                'course'
-            ]
-        }]
-    })
-}
-
-module.exports = {
-    create,
-    read,
-    update,
-    destroy,
-    addUser,
-    RemoveUser,
-    readUsers
-}
+};

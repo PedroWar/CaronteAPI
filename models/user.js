@@ -1,62 +1,51 @@
-var models = require('../migrations/DBconfig');
-
-async function login(body) {
-    return await models.User.findOne(
-        {
-            where:
-            {
-                email: body.email,
-                senha: body.password
-            }
-        })
-}
-
-async function create(body) {
-    return await models.User.create(
-        {
-            email: body.email,
-            password: body.password,
-            name: body.name,
-            phone: body.phone,
-            course: body.course
-        })
-
-}
-
-async function read() {
-    return await models.User.findAll()
-}
-
-async function update(body) {
-    return await models.User.update(
-        {
-            email: body.email,
-            password: body.password,
-            name: body.name,
-            phone: body.phone,
-            course: body.course
+module.exports = function (Sequelize, DataTypes) {
+    var User = Sequelize.define("User", {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
         },
-        {
-            where: {
-                id: body.id
+        email: DataTypes.STRING(250),
+        password: DataTypes.STRING(250),
+        name: DataTypes.STRING(250),
+        phone: DataTypes.BIGINT,
+        course: DataTypes.STRING(250)
+    }, {}
+    );
+
+    User.associate = (models) => {
+        User.hasMany(models.Comment)
+        User.belongsToMany(
+            models.Group, {
+                through: {
+                    model: models.GroupUsers,
+                    unique: true
+                },
+                foreignKey: 'UserId',
+                constraints: false
             }
-        })
-}
+        )
+        User.belongsToMany(
+            models.Post, {
+                through: {
+                    model: models.LikePost,
+                    unique: true
+                },
+                foreignKey: 'UserId',
+                constraints: false
+            }
+        )
+        User.belongsToMany(
+            models.Post, {
+                through: {
+                    model: models.UnlikePost,
+                    unique: true
+                },
+                foreignKey: 'UserId',
+                constraints: false
+            }
+        )
+    }
 
-async function destroy(body) {
-    return await models.User.destroy({
-        where: {
-            id: body.id
-        }
-    }).then(function (response) {
-        return response
-    })
-}
-
-module.exports = {
-    login,
-    create,
-    read,
-    update,
-    destroy
-}
+    return User;
+};
