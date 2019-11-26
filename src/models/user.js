@@ -6,7 +6,7 @@ async function login(body) {
             where:
             {
                 email: body.email,
-                senha: body.password
+                password: body.password
             }
         })
 }
