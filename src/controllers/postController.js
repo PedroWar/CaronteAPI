@@ -1,4 +1,5 @@
-var postApi = require('../models/post');
+var post = require('../models/post');
+var comment = require('../models/comment')
 
 exports.configura = function (router) {
 
@@ -11,7 +12,7 @@ exports.configura = function (router) {
     router.route("/post/")
         .post(async function (req, res) {
             let objRes;
-            objRes = await postApi.create(req.body)
+            objRes = await post.create(req.body)
             console.log(objRes)
             if (objRes) {
                 return res.status(200).json(objRes)
@@ -22,9 +23,9 @@ exports.configura = function (router) {
         .get(async function (req, res) {
             let objRes;
             if (req.query.id)
-                objRes = await postApi.readOne(req.query)
+                objRes = await post.readOne(req.query)
             else
-                objRes = await postApi.read()
+                objRes = await post.read()
 
 
             if (objRes) {
@@ -35,7 +36,7 @@ exports.configura = function (router) {
         })
         .delete(async function (req, res) {
             let objRes;
-            objRes = await postApi.destroy(req.query)
+            objRes = await post.destroy(req.query)
 
             if (objRes) {
                 return res.status(200).json(objRes)
@@ -47,7 +48,7 @@ exports.configura = function (router) {
     router.route("/post/like")
         .post(async function (req, res) {
             let objRes;
-            objRes = await postApi.likePost(req.body)
+            objRes = await post.likePost(req.body)
             console.log(objRes)
             if (objRes) {
                 return res.status(200).json(objRes)
@@ -56,7 +57,7 @@ exports.configura = function (router) {
                 return res.status(400).json(objRes)
         }).delete(async function (req, res) {
             let objRes;
-            objRes = await postApi.undoLikePost(req.body)
+            objRes = await post.undoLikePost(req.body)
             console.log(objRes)
             if (objRes) {
                 return res.status(200).json(objRes)
@@ -68,7 +69,7 @@ exports.configura = function (router) {
     router.route("/post/unlike")
         .post(async function (req, res) {
             let objRes;
-            objRes = await postApi.unlikePost(req.body)
+            objRes = await post.unlikePost(req.body)
             console.log(objRes)
             if (objRes) {
                 return res.status(200).json(objRes)
@@ -78,7 +79,7 @@ exports.configura = function (router) {
         })
         .delete(async function (req, res) {
             let objRes;
-            objRes = await postApi.undoUnlikePost(req.body)
+            objRes = await post.undoUnlikePost(req.body)
             console.log(objRes)
             if (objRes) {
                 return res.status(200).json(objRes)
@@ -90,7 +91,7 @@ exports.configura = function (router) {
     router.route("/post/comment")
         .post(async function (req, res) {
             let objRes;
-            objRes = await postApi.createComment(req.body)
+            objRes = await comment.create(req.body)
             console.log(objRes)
             if (objRes)
                 return res.status(200).json(objRes)
@@ -99,7 +100,7 @@ exports.configura = function (router) {
         })
         .delete(async function (req, res) {
             let objRes;
-            objRes = await postApi.destroyComment(req.query)
+            objRes = await comment.destroy(req.query)
 
             console.log(objRes)
             if (objRes)
@@ -109,7 +110,7 @@ exports.configura = function (router) {
         })
         .get(async function (req, res) {
             let objRes;
-            objRes = await postApi.getComment(req.query)
+            objRes = await comment.listByPost(req.query)
 
             if (objRes)
                 return res.status(200).json(objRes)
