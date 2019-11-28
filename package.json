@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "POSTGRES_PORT=5434 && nodemon index.js",
-    "start": "POSTGRES_PORT=5434 && node index.js"
+    "start": "POSTGRES_PORT=5432 && node index.js"
   },
   "author": "Pedro Guerra",
   "license": "ISC",

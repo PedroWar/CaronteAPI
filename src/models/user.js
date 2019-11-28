@@ -6,7 +6,7 @@ async function login(body) {
             where:
             {
                 email: body.email,
-                senha: body.password
+                password: body.password
             }
         })
 }
@@ -25,6 +25,10 @@ async function create(body) {
 
 async function read() {
     return await models.User.findAll()
+}
+
+async function readOne(query) {
+    return await models.User.findByPk(query.id)
 }
 
 async function update(body) {
@@ -57,6 +61,7 @@ module.exports = {
     login,
     create,
     read,
+    readOne,
     update,
     destroy
 }

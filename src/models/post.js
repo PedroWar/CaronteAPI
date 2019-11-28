@@ -1,5 +1,6 @@
-var models = require('../../models/DBconfig');
-var sequelize = require('sequelize')
+var models = require('../../models/DBconfig')
+var likeModel = require('./likes')
+var unlikeModel = require('./unlike')
 
 async function create(body) {
     return await models.Post.create(
@@ -30,46 +31,26 @@ async function destroy(query) {
 }
 
 async function likePost(body) {
-    await createLike(body)
-    console.log("post")
+    await likeModel.create(body)
+    
     let post = await models.Post.findByPk(body.PostId)
-    console.log(post)
+    
     await post.increment("likes")
+    
     return await post.save()
 }
 
 async function undoLikePost(body) {
-    await destroyLike(body)
-    console.log("post")
+    await likeModel.destroy(body)
+    
     let post = await models.Post.findByPk(body.PostId)
-    console.log(post)
+    
     await post.decrement("likes")
     return await post.save()
 }
 
-async function createLike(body) {
-    return await models.LikePost.create(
-        {
-            PostId: body.PostId,
-            UserId: body.UserId
-        }
-    )
-}
-
-async function destroyLike(body) {
-    return await models.LikePost.destroy(
-        {
-            where:
-            {
-                PostId: body.PostId,
-                UserId: body.UserId
-            }
-        }
-    )
-}
-
 async function unlikePost(body) {
-    await createUnlike(body)
+    await unlikeModel.create(body)
     
     let post = await models.Post.findByPk(body.PostId)
     
@@ -78,65 +59,12 @@ async function unlikePost(body) {
 }
 
 async function undoUnlikePost(body) {
-    await destroyUnlike(body)
+    await unlikeModel.destroy(body)
     
     let post = await models.Post.findByPk(body.PostId)
     
     await post.decrement("unlikes")
     return await post.save()
-}
-
-async function createUnlike(body) {
-    return await models.UnlikePost.create(
-        {
-            PostId: body.PostId,
-            UserId: body.UserId
-        }
-    )
-}
-
-async function destroyUnlike(body) {
-    return await models.UnlikePost.destroy(
-        {
-            where:
-            {
-                PostId: body.PostId,
-                UserId: body.UserId
-            }
-        }
-    )
-}
-
-async function createComment(body) {
-    return await models.Comment.create(
-        {
-            comment: body.comment,
-            PostId: body.PostId,
-            UserId: body.UserId
-        }
-    )
-}
-
-async function destroyComment(body) {
-    return await models.Comment.destroy(
-        {
-            where:
-            {
-              id: body.id
-            }
-        }
-    )
-}
-
-async function getComment(query) {
-    return await models.Comment.findAll(
-        {
-            where:
-            {
-              PostId: query.PostId
-            }
-        }
-    )
 }
 
 module.exports = {
@@ -147,8 +75,5 @@ module.exports = {
     likePost,
     undoLikePost,
     unlikePost,
-    undoUnlikePost,
-    createComment,
-    destroyComment,
-    getComment
+    undoUnlikePost
 }

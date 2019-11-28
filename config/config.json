@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "root",
-    "database": "caronte",
-    "host": "127.0.0.1",
+    "username": "cjhhtyxtkracad",
+    "password": "638a694ffa9a294a71c096b876ff7b859813f18d6a4e53f97bf16a7307e872f0",
+    "database": "daonrqu1u93cov",
+    "host": "ec2-184-73-176-11.compute-1.amazonaws.com",
     "dialect": "postgres"
   }
 }
