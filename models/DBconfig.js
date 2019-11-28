@@ -8,7 +8,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
-let sequelize = new Sequelize(config.database, config.username, config.password, config);
+let sequelize = new Sequelize('postgres://cjhhtyxtkracad:638a694ffa9a294a71c096b876ff7b859813f18d6a4e53f97bf16a7307e872f0@ec2-184-73-176-11.compute-1.amazonaws.com:5432/daonrqu1u93cov')
 
 
 fs.readdirSync(__dirname)
