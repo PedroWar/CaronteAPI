@@ -32,7 +32,10 @@ exports.configura = function (router) {
 		})
 		.get(async function (req, res) {
 			let objRes;
-			objRes = await userApi.read()
+			if(req.query.id)
+				objRes = await userApi.readOne(req.query)
+			else
+				objRes = await userApi.read()
 
 			if (objRes) {
 				return res.status(200).json(objRes)

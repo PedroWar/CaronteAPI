@@ -27,6 +27,10 @@ async function read() {
     return await models.User.findAll()
 }
 
+async function readOne(query) {
+    return await models.User.findByPk(query.id)
+}
+
 async function update(body) {
     return await models.User.update(
         {
@@ -57,6 +61,7 @@ module.exports = {
     login,
     create,
     read,
+    readOne,
     update,
     destroy
 }
